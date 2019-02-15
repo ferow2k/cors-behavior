@@ -129,20 +129,24 @@ class CorsBehavior extends CBehavior
         {
             return $headers['origin'];
         }
-        
-        if (stripos($this->_allowOrigin, '*') === false)
-        {
-            return $origin === $this->_allowOrigin ? $headers['origin'] : false;
+
+        $allowedOrigins = explode(',', $this->_allowOrigin);
+        foreach ($allowedOrigins as $allowedOrigin) {
+            $allowedOrigin = str_replace(' ', '', $allowedOrigin);
+            if (stripos($allowedOrigin, '*') === false)
+            {
+                return $origin === $allowedOrigin ? $headers['origin'] : false;
+            }
+
+            $pattern = '/' . substr($allowedOrigin, 1) . '$/';
+
+            if (substr($allowedOrigin, 2) === $origin
+                    || preg_match($pattern, $origin) === 1)
+            {
+                return $headers['origin'];
+            }
         }
-        
-        $pattern = '/' . substr($this->_allowOrigin, 1) . '$/';
-        
-        if (substr($this->_allowOrigin, 2) === $origin
-                || preg_match($pattern, $origin) === 1)
-        {
-            return $headers['origin'];
-        }
-        
+
     }
     
     
