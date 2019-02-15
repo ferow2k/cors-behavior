@@ -18,6 +18,8 @@ class CorsBehavior extends CBehavior
 {
     
     private $_allowOrigin;
+    public $allowMethods = false;
+    public $allowHeaders = false;
     
     private $_route = array();
     
@@ -178,6 +180,14 @@ class CorsBehavior extends CBehavior
     protected function setAllowOriginHeader($origin)
     {
         header('Access-Control-Allow-Origin: ' . $origin);
+//        header('Access-Control-Allow-Methods: *');
+//        header('Access-Control-Allow-Headers: *');
+        if($this->allowMethods !== false){
+            header('Access-Control-Allow-Methods: '.$this->allowMethods);
+        }
+        if($this->allowHeaders !== false){
+            header('Access-Control-Allow-Headers: '.$this->allowHeaders);
+        }
     }
     
     
