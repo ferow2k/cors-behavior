@@ -188,6 +188,9 @@ class CorsBehavior extends CBehavior
         if($this->allowHeaders !== false){
             header('Access-Control-Allow-Headers: '.$this->allowHeaders);
         }
+        if (\Yii::app()->request->requestType == 'OPTIONS') {
+            \Yii::app()->end();
+        }
     }
     
     
