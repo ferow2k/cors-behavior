@@ -165,10 +165,29 @@ class CorsBehavior extends CBehavior
         
         $route = Yii::app()->getUrlManager()
                 ->parseUrl(Yii::app()->getRequest());
-        
-        $wildcardRoute = preg_replace('#([^/]*)$#', '*', $route, 1);
-        
-        return in_array($route, $this->_route) || in_array($wildcardRoute, $this->_route);
+
+        //Check without wildcard entry
+        if(in_array($route, $this->_route)){
+            return true;
+        }
+
+        //Check wildcard entry
+        if(!is_array($this->_route)){
+            return false;
+        }
+
+        foreach ($this->_route as $routeVal) {
+            //Skip element without wildcard(*)
+            if(strpos($routeVal, '*') === false){
+                continue;
+            }
+            $str1 = substr($route, 0, strlen($routeVal)-1);
+            $str2 = substr($routeVal, 0, strlen($routeVal)-1);
+            if( $str1== $str2){
+                return true;
+            }
+        }
+        return false;
     }
     
     
