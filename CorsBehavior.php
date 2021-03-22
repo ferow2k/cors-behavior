@@ -82,13 +82,13 @@ class CorsBehavior extends CBehavior
      * A wildcard can be used to specify list of allowed origins,
      * e.g. "*.yourdomain.com" (sub.yourdomain.com, yourdomain.com,
      * sub.sub.yourdomain.com will be allowed origins in that case)
-     * @throws CExecption
+     * @throws CException
      */
     public function setAllowOrigin($origin)
     {
         if (!is_string($origin))
         {
-            throw new CExecption('The value of the "allowOrigin" property must be '
+            throw new CException('The value of the "allowOrigin" property must be '
                     . 'a string.');
         }
 
